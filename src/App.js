@@ -41,8 +41,10 @@ class App extends Component {
   };
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
-    debugger
+    // slice method creates a copy of the array
+    // const persons = this.state.persons.slice();
+    // spreads out the elements of the array
+    const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({ persons: persons });
   };
@@ -60,12 +62,12 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person) => {
+          {this.state.persons.map((person, index) => {
             return (
               <Person
                 name={person.name}
                 age={person.age}
-                click={this.deletePersonHandler}
+                click={() => this.deletePersonHandler(index)}
               />
             );
           })}
