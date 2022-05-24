@@ -1,47 +1,101 @@
 import React, { Component } from "react";
 import "./App.css";
-import Validation from "./Validation/Validation";
-import Char from "./Char/Char";
+import Person from "./Person/Person";
+
 class App extends Component {
   state = {
-    userInput: "",
+    persons: [
+      { id: 1, name: "Sagar", age: 28 },
+      { id: 2, name: "Jenish", age: 29 },
+      { id: 3, name: "Jason", age: 26 },
+    ],
+    otherState: "some other value",
+    showPersons: false,
   };
 
-  inputChangedHandler = (event) => {
-    console.log(event.target.value);
-    this.setState({ userInput: event.target.value });
-  };
-
-  deleteCharHandler = (index) => {
-    const text = this.state.userInput.split("");
-    text.splice(index, 1);
-    const updatedText = text.join("");
-    console.log(updatedText)
-    this.setState({ userInput: updatedText });
-  };
-  
-  render() {
-    const charList = this.state.userInput.split("").map((ch, index) => {
-      return (
-        <Char
-          character={ch}
-          click={() => this.deleteCharHandler(index)}
-          key={index}
-        />
-      );
+  switchNameHandler = (newName) => {
+    // console.log('Was clicked!');
+    // DON'T DO THIS: this.state.persons[0].name = 'Sagar';
+    this.setState({
+      persons: [
+        { name: newName, age: 28 },
+        { name: "Jenish", age: 29 },
+        { name: "Jason", age: 27 },
+      ],
     });
+  };
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex((p) => p.id === id);
+
+    const person = {
+      ...this.state.persons[personIndex],
+    };
+
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
+  };
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
+  };
+
+  deletePersonHandler = (personIndex) => {
+    // slice method creates a copy of the array
+    // const persons = this.state.persons.slice();
+    // spreads out the elements of the array
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
+  };
+  render() {
+    const style = {
+      backgroundColor: "green",
+      color: "#fff",
+      font: "inherit",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer",
+    };
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return (
+              <Person
+                name={person.name}
+                age={person.age}
+                click={() => this.deletePersonHandler(index)}
+                key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)}
+              />
+            );
+          })}
+        </div>
+      );
+      style.backgroundColor = "red";          
+    }
+
     return (
       <div className="App">
-        <input
-          type="text"
-          value={this.state.userInput}
-          onChange={this.inputChangedHandler}
-        />
-        <p>{this.state.userInput}</p>
-        <Validation inputLength={this.state.userInput.length} />
-        {charList}
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button style={style} onClick={this.togglePersonsHandler}>
+          Toggle Persons
+        </button>
+        {persons}
       </div>
     );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
