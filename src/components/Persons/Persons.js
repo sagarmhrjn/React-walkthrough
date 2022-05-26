@@ -4,7 +4,7 @@ import Person from "./Person/Person";
 class Persons extends Component {
   // getDerivedStateFromProps(props, state) {
   //   console.log("[Persons.js] getDerivedStateFromProps", props);
-  // } 
+  // }
 
   // componentWillReceiveProps(props){
   //   console.log("[Persons.js] componentWillReceiveProps", props);
@@ -16,7 +16,7 @@ class Persons extends Component {
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log("[Persons.js] getSnapshotBeforeUpdate");
-    return {message:'Snapshot'};
+    return { message: "Snapshot" };
   }
 
   // componentWillUpdate(){
@@ -27,6 +27,10 @@ class Persons extends Component {
     console.log(snapshot);
   }
 
+  componentWillUnmount() {
+    console.log("[Persons.js] componentWillUnmount");
+  }
+  
   render() {
     return this.props.persons.map((person, index) => {
       return (
