@@ -22,7 +22,16 @@ class App extends Component {
     console.log("[App.js] getDerivedStateFromProps", props);
     return state;
   }
-  
+
+  componentDidUpdate() {
+    console.log("[App.js] Inside componentDidUpdate()");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("[App.js] Inside shouldComponentUpdate()");
+    return true;
+  }
+
   componentWillmount() {
     console.log("[App.js] Inside componentWillmount()");
   }
