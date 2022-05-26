@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
 import classes from "./Person.css";
-import Aux from "../../../hoc/Aux"
+import WithClass from "../../../hoc/WithClass";
 class Person extends Component {
   render() {
     console.log("Person.js rendering...");
     return (
-      <React.Fragment>
+      <WithClass classes={classes.App}>
         <p onClick={this.props.click}>
           I'm {this.props.name} and I am {this.props.age} years old!
         </p>
@@ -18,7 +18,7 @@ class Person extends Component {
           value={this.props.name}
         />
         ,
-      </React.Fragment>
+      </WithClass>
     );
   }
 }
